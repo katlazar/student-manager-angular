@@ -1,5 +1,8 @@
 <h4>Lista studentów</h4>
-<table class="table table-dark table-hover">
+<button class="btn btn-secondary" (click)="showTable()">{{ btnText }}</button>
+<button class="btn btn-primary" (click)="getData()">Pobierz dane</button>
+<p></p>
+<table *ngIf="isTableVisible" class="table table-dark table-hover">
   <thead>
     <tr>
       <th>Id</th>
@@ -8,15 +11,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>Jan Kowalski</td>
-      <td>kowalski@qmail.com</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Piotr Nowak</td>
-      <td>nowak@qmail.com</td>
+    <tr *ngFor="let student of students">
+      <td>{{ student.id }}</td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.email }}</td>
     </tr>
   </tbody>
 </table>
