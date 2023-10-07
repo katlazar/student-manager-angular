@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpService } from '../http.service';
 import { Student } from '../student';
+import { DisplayingType } from '../displaying-type';
 
 @Component({
   selector: 'app-list-students',
@@ -12,11 +13,23 @@ export class ListStudentsComponent {
   // 2. Utworzymy sobie serwis do komunikacji z częścią backendową - wyślemy request GET
   // 3. Sprzawdzimy czy pobraliśmy dane
 
-  isTableVisible = false;
-  btnText = 'Pokaż';
-  students: Student[] = [];
+  // Usuwanie
+  // 1. Dodanie przycisku do usunięcia danych
+  // 2. Wysyłanie requesta HTTP - DELETE ->
+  // 3. Napisać metodę usuwania
 
-  constructor(private httpService: HttpService) {}
+  isTableVisible = true;
+  btnText = 'Schowaj';
+  students: Student[] = [];
+  displayingMode: DisplayingType = DisplayingType.TABLE;
+  DisplayingType = DisplayingType;
+  darkTableMode = 'table-dark';
+  isDarkMode = false;
+  tableMode = '';
+
+  constructor(private httpService: HttpService) {
+    this.getData();
+  }
 
   showTable() {
     this.isTableVisible = !this.isTableVisible;
@@ -32,5 +45,30 @@ export class ListStudentsComponent {
       console.log(data);
       this.students = data;
     });
+  }
+
+  changeTableMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      this.tableMode = 'table-dark';
+    } else {
+      this.tableMode = '';
+    }
+  }
+
+  delete(id: number) {
+    //alert('Kliknięto usuwanie studenta o id =' + id);
+    this.httpService.deleteStudent(id).subscribe(() => {
+      //alert('Usunięto dane');
+      this.students = this.students.filter((x) => x.id != id);
+    });
+  }
+
+  changeDisplayingMode() {
+    if (this.displayingMode == DisplayingType.TABLE) {
+      this.displayingMode = DisplayingType.LIST;
+    } else {
+      this.displayingMode = DisplayingType.TABLE;
+    }
   }
 }

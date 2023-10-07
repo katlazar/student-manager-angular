@@ -1,20 +1,54 @@
 <h4>Lista studentów</h4>
 <button class="btn btn-secondary" (click)="showTable()">{{ btnText }}</button>
-<button class="btn btn-primary" (click)="getData()">Pobierz dane</button>
+<button class="btn btn-primary button-margin" (click)="getData()">
+  Pobierz dane
+</button>
+<button
+  *ngIf="false"
+  class="btn btn-dark button-margin"
+  (click)="changeTableMode()"
+>
+  Change table mode
+</button>
+<button class="btn btn-warning button-margin" (click)="changeDisplayingMode()">
+  Zmień wyświetlanie
+</button>
 <p></p>
-<table *ngIf="isTableVisible" class="table table-dark table-hover">
+<table
+  *ngIf="isTableVisible || displayingMode == DisplayingType.TABLE"
+  class="table {{ tableMode }} table-hover"
+>
   <thead>
-    <tr>
+    <tr class="table-primary">
       <th>Id</th>
       <th>Imię i nazwisko</th>
       <th>Email</th>
+      <th>Akcje</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let student of students">
+    <tr
+      *ngFor="let student of students"
+      [ngClass]="{
+        'table-warning': student.id == 3,
+        'table-success': student.name == 'Chelsey Dietrich'
+      }"
+    >
       <td>{{ student.id }}</td>
-      <td>{{ student.name }}</td>
-      <td>{{ student.email }}</td>
+      <td>{{ student.name | uppercase }}</td>
+      <td>{{ student.email | lowercase }}</td>
+      <td>
+        <button class="btn btn-outline-danger" (click)="delete(student.id)">
+          Usuń
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<div *ngIf="displayingMode == DisplayingType.LIST">
+  <div *ngFor="let student of students">
+    <h4>{{ student.name }}</h4>
+    <p style="color: blue">{{ student.email }}</p>
+  </div>
+</div>

@@ -6,11 +6,18 @@ import { Student } from './student';
   providedIn: 'root',
 })
 export class HttpService {
+  studentApiUrl = 'https://jsonplaceholder.typicode.com/users';
+
   constructor(private httpClient: HttpClient) {}
 
+  // funkcja wysyłająca request GET - pobranie tablicy studentów z API
   getStudents() {
-    return this.httpClient.get<Student[]>(
-      'https://jsonplaceholder.typicode.com/users'
-    );
+    return this.httpClient.get<Student[]>(this.studentApiUrl);
+  }
+
+  // funkcja wysyłająca request DELETE - usuwającą studenta o podanym id
+  deleteStudent(id: number) {
+    let deleteStudentUrl = this.studentApiUrl + '/' + id;
+    return this.httpClient.delete<Student>(deleteStudentUrl);
   }
 }
