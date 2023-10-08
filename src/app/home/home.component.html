@@ -4,7 +4,7 @@
   <div
     style="margin: 20px auto"
     id="carouselExampleIndicators"
-    class="carousel slide col-10"
+    class="carousel slide col-8"
   >
     <div class="carousel-indicators">
       <button
@@ -72,15 +72,10 @@
   </div>
 </div>
 <div class="row">
-  <div style="margin: 5px auto" class="col-5">
+  <div class="d-grid gap-2 col-3 mx-auto">
     <a [routerLink]="'/students'" class="btn btn-outline-primary"
       >Przeglądaj studentów</a
     >
-    <a
-      style="margin-left: 15px"
-      [routerLink]="'/add'"
-      class="btn btn-outline-primary"
-      >Dodaj studenta</a
-    >
+    <a [routerLink]="'/add'" class="btn btn-outline-primary">Dodaj studenta</a>
   </div>
 </div>
