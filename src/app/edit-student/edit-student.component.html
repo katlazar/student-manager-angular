@@ -1,0 +1,50 @@
+<ng-container *ngIf="student">
+  <h4>Edycja studenta {{ studentOldName }}</h4>
+
+  <form (ngSubmit)="save()">
+    <div class="row">
+      <!-- Pole imię i nazwisko -->
+      <div class="col-6">
+        <label class="form-label">Imię i nazwisko</label>
+        <input
+          name="studentName"
+          [(ngModel)]="student.name"
+          class="form-control"
+          #name
+        />
+      </div>
+
+      <!-- Pole email -->
+      <div class="col-6">
+        <label class="form-label">Email</label>
+        <input
+          name="studentEmail"
+          [(ngModel)]="student.email"
+          type="email"
+          class="form-control"
+          #email
+        />
+      </div>
+    </div>
+
+    <div style="margin-top: 15px">
+      <!-- Przycisk do zapisu -->
+      <button [disabled]="false" class="btn btn-outline-success">
+        <span
+          *ngIf="false"
+          class="spinner-border spinner-border-sm"
+          aria-hidden="true"
+        ></span>
+        Zapisz
+      </button>
+      <!-- Przycisk do powrotu -->
+      <button
+        style="margin-left: 10px"
+        [disabled]="false"
+        class="btn btn-outline-success"
+      >
+        Powrót
+      </button>
+    </div>
+  </form>
+</ng-container>

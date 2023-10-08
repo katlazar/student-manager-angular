@@ -1,20 +1,41 @@
 <h4>Dodaj nowego studenta</h4>
 
-<form action="">
+<form (submit)="save(name.value, email.value)">
   <!-- Pole imię i nazwisko -->
   <div class="col-6">
     <label class="form-label">Imię i nazwisko</label>
-    <input class="form-control" />
+    <input class="form-control" #name />
   </div>
 
   <!-- Pole email -->
   <div class="col-6">
     <label class="form-label">Email</label>
-    <input type="email" class="form-control" />
+    <input type="email" class="form-control" #email />
   </div>
 
   <!-- Przycisk do zapisu -->
   <div style="margin-top: 15px">
-    <button class="btn btn-outline-success">Zapisz</button>
+    <button [disabled]="isFormSubmitting" class="btn btn-outline-success">
+      <span
+        *ngIf="isFormSubmitting"
+        class="spinner-border spinner-border-sm"
+        aria-hidden="true"
+      ></span>
+      Zapisz
+    </button>
   </div>
+
+  <p *ngIf="!isFormValid" style="color: red; font-size: 16px; margin-top: 10px">
+    {{ errorText }}
+  </p>
 </form>
+
+<br /><br />
+
+<div *ngIf="isAddedSuccessful" class="alert alert-success" role="alert">
+  Dodano studenta!
+</div>
+
+<div *ngIf="isAddedError" class="alert alert-danger" role="alert">
+  Wystąpił błąd w komunikacji z serwerem!
+</div>

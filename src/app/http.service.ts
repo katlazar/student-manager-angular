@@ -15,9 +15,20 @@ export class HttpService {
     return this.httpClient.get<Student[]>(this.studentApiUrl);
   }
 
+  // funkcja wysyłająca request GET/id - pobranie studenta o podanym id
+  getStudent(id: number) {
+    let getStudentUrl = this.studentApiUrl + '/' + id;
+    return this.httpClient.get<Student>(getStudentUrl);
+  }
+
   // funkcja wysyłająca request DELETE - usuwającą studenta o podanym id
   deleteStudent(id: number) {
     let deleteStudentUrl = this.studentApiUrl + '/' + id;
     return this.httpClient.delete<Student>(deleteStudentUrl);
+  }
+
+  // funkcja wysyłająca request POST - nadpisanie tablicy
+  addStudent(student: Student) {
+    return this.httpClient.post<Student>(this.studentApiUrl, student);
   }
 }
