@@ -21,8 +21,11 @@ export class ListStudentsComponent {
   isTableVisible = true;
   btnText = 'Schowaj';
   students: Student[] = [];
+  studentIdToRemove: number[] = [];
   displayingMode: DisplayingType = DisplayingType.TABLE;
   DisplayingType = DisplayingType;
+  copyStudents: Student[] = [];
+  searchPhrase = '';
   darkTableMode = 'table-dark';
   isDarkMode = false;
   tableMode = '';
@@ -41,9 +44,11 @@ export class ListStudentsComponent {
   }
 
   getData() {
+    this.studentIdToRemove = [];
     this.httpService.getStudents().subscribe((data) => {
       console.log(data);
       this.students = data;
+      this.copyStudents = data;
     });
   }
 
@@ -64,11 +69,43 @@ export class ListStudentsComponent {
     });
   }
 
+  changeStatus(event: any, studentId: number) {
+    console.log(event.checked);
+    if (event.checked) {
+      this.studentIdToRemove.push(studentId);
+    } else {
+      this.studentIdToRemove = this.studentIdToRemove.filter(
+        (x) => x != studentId
+      );
+    }
+
+    console.log(this.studentIdToRemove);
+  }
+
+  deleteGlobalStudents() {
+    this.studentIdToRemove.forEach((x) => {
+      this.httpService.deleteStudent(x).subscribe(() => {
+        console.log('Usunięto studenta o id ' + x);
+        this.students = this.students.filter((d) => d.id != x);
+      });
+    });
+  }
+
   changeDisplayingMode() {
     if (this.displayingMode == DisplayingType.TABLE) {
       this.displayingMode = DisplayingType.LIST;
     } else {
       this.displayingMode = DisplayingType.TABLE;
     }
+  }
+
+  search(searchString: string) {
+    this.searchPhrase = searchString;
+
+    this.students = this.copyStudents.filter(
+      (x) =>
+        x.name.toLowerCase().includes(searchString.toLowerCase()) ||
+        x.email.toLowerCase().includes(searchString.toLowerCase())
+    );
   }
 }

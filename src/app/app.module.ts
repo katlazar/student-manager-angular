@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddStudentComponent } from './add-student/add-student.component';
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { HighlightPipe } from './highlight.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { FormsModule } from '@angular/forms';
     ListStudentsComponent,
     AddStudentComponent,
     EditStudentComponent,
+    HomeComponent,
+    HighlightPipe,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
   providers: [],

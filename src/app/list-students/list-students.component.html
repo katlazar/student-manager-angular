@@ -1,8 +1,10 @@
 <h4>Lista studentów</h4>
 <button class="btn btn-secondary" (click)="showTable()">{{ btnText }}</button>
+
 <button class="btn btn-primary button-margin" (click)="getData()">
   Pobierz dane
 </button>
+
 <button
   *ngIf="false"
   class="btn btn-dark button-margin"
@@ -10,12 +12,27 @@
 >
   Change table mode
 </button>
+
 <button class="btn btn-warning button-margin" (click)="changeDisplayingMode()">
   Zmień wyświetlanie
 </button>
+
+<button class="btn btn-danger button-margin" (click)="deleteGlobalStudents()">
+  Usuń globalnie
+</button>
+
+<div class="col-4">
+  <label class="form-label">Wyszukaj:</label>
+  <input
+    #searchInput
+    (keyup)="search(searchInput.value)"
+    class="form-control"
+  />
+</div>
+
 <p></p>
 <table
-  *ngIf="isTableVisible || displayingMode == DisplayingType.TABLE"
+  *ngIf="isTableVisible && displayingMode == DisplayingType.TABLE"
   class="table {{ tableMode }} table-hover"
 >
   <thead>
@@ -24,6 +41,7 @@
       <th>Imię i nazwisko</th>
       <th>Email</th>
       <th>Akcje</th>
+      <th>Zaznacz</th>
     </tr>
   </thead>
   <tbody>
@@ -35,8 +53,8 @@
       }"
     >
       <td>{{ student.id }}</td>
-      <td>{{ student.name | uppercase }}</td>
-      <td>{{ student.email | lowercase }}</td>
+      <td [innerHTML]="student.name | highlight : searchPhrase"></td>
+      <td [innerHTML]="student.email | highlight : searchPhrase"></td>
       <td>
         <a [routerLink]="'/edit/' + student.id" class="btn btn-outline-warning"
           >Edytuj</a
@@ -49,11 +67,17 @@
           Usuń
         </button>
       </td>
+      <td>
+        <input
+          type="checkbox"
+          (change)="changeStatus($event.target, student.id)"
+        />
+      </td>
     </tr>
   </tbody>
 </table>
 
-<div *ngIf="displayingMode == DisplayingType.LIST">
+<div *ngIf="isTableVisible && displayingMode == DisplayingType.LIST">
   <div *ngFor="let student of students">
     <h4>{{ student.name }}</h4>
     <p style="color: blue">{{ student.email }}</p>

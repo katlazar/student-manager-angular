@@ -31,4 +31,10 @@ export class HttpService {
   addStudent(student: Student) {
     return this.httpClient.post<Student>(this.studentApiUrl, student);
   }
+
+  // funkcja wysyłająca request PUT - nadpisanie studenta o podanym id
+  updateStudent(student: Student) {
+    let updateStudentUrl = this.studentApiUrl + '/' + student.id;
+    return this.httpClient.put<Student>(updateStudentUrl, student);
+  }
 }

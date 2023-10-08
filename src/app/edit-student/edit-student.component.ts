@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../http.service';
 import { Student } from '../student';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-student',
@@ -15,11 +16,14 @@ export class EditStudentComponent {
   // 4. Zbudować formularz
   // 5. Stworzyć metodę zapisującą nowe dane w bazie
   student!: Student;
+  isStudentUpdated = false;
   studentOldName = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private router: Router,
+    private location: Location
   ) {
     this.getIdFromUrl();
   }
@@ -36,5 +40,18 @@ export class EditStudentComponent {
     });
   }
 
-  save() {}
+  save() {
+    this.httpService.updateStudent(this.student).subscribe((data) => {
+      this.isStudentUpdated = true;
+      this.studentOldName = this.student.name;
+      setTimeout(() => {
+        this.isStudentUpdated = false;
+      }, 4000);
+    });
+  }
+
+  getBack() {
+    //this.location.back();  //przekierowanie do poprzedniej strony
+    this.router.navigate(['/students']);
+  }
 }

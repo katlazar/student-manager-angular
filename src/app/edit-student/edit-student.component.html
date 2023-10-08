@@ -39,6 +39,8 @@
       </button>
       <!-- Przycisk do powrotu -->
       <button
+        (click)="getBack()"
+        type="button"
         style="margin-left: 10px"
         [disabled]="false"
         class="btn btn-outline-success"
@@ -48,3 +50,11 @@
     </div>
   </form>
 </ng-container>
+
+<div
+  *ngIf="isStudentUpdated"
+  style="margin-top: 20px"
+  class="alert alert-success"
+>
+  Zaaktualizowano studenta!
+</div>
