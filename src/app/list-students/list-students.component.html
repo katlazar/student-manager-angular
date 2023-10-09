@@ -17,8 +17,12 @@
   Zmień wyświetlanie
 </button>
 
-<button class="btn btn-danger button-margin" (click)="deleteGlobalStudents()">
-  Usuń globalnie
+<button
+  [disabled]="notChecked"
+  class="btn btn-danger button-margin"
+  (click)="deleteGlobalStudents()"
+>
+  Usuń wybrane
 </button>
 
 <div class="col-4">

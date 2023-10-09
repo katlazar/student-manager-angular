@@ -21,7 +21,6 @@ export class ListStudentsComponent {
   isTableVisible = true;
   btnText = 'Schowaj';
   students: Student[] = [];
-  studentIdToRemove: number[] = [];
   displayingMode: DisplayingType = DisplayingType.TABLE;
   DisplayingType = DisplayingType;
   copyStudents: Student[] = [];
@@ -29,6 +28,8 @@ export class ListStudentsComponent {
   darkTableMode = 'table-dark';
   isDarkMode = false;
   tableMode = '';
+  notChecked = true;
+  newChecked: number[] = [];
 
   constructor(private httpService: HttpService) {
     this.getData();
@@ -41,10 +42,13 @@ export class ListStudentsComponent {
     } else {
       this.btnText = 'Pokaż';
     }
+    this.newChecked = [];
+    this.notChecked = true;
   }
 
   getData() {
-    this.studentIdToRemove = [];
+    this.newChecked = [];
+    this.notChecked = true;
     this.httpService.getStudents().subscribe((data) => {
       console.log(data);
       this.students = data;
@@ -62,33 +66,34 @@ export class ListStudentsComponent {
   }
 
   delete(id: number) {
-    //alert('Kliknięto usuwanie studenta o id =' + id);
     this.httpService.deleteStudent(id).subscribe(() => {
-      //alert('Usunięto dane');
       this.students = this.students.filter((x) => x.id != id);
+      this.copyStudents = this.students;
     });
   }
 
   changeStatus(event: any, studentId: number) {
-    console.log(event.checked);
     if (event.checked) {
-      this.studentIdToRemove.push(studentId);
+      this.newChecked.push(studentId);
     } else {
-      this.studentIdToRemove = this.studentIdToRemove.filter(
-        (x) => x != studentId
-      );
+      this.newChecked = this.newChecked.filter((x) => x != studentId);
     }
-
-    console.log(this.studentIdToRemove);
+    if (this.newChecked.length > 0) {
+      this.notChecked = false;
+    } else {
+      this.notChecked = true;
+    }
   }
 
   deleteGlobalStudents() {
-    this.studentIdToRemove.forEach((x) => {
+    this.newChecked.forEach((x) => {
       this.httpService.deleteStudent(x).subscribe(() => {
-        console.log('Usunięto studenta o id ' + x);
         this.students = this.students.filter((d) => d.id != x);
+        this.copyStudents = this.students;
       });
     });
+    this.newChecked = [];
+    this.notChecked = true;
   }
 
   changeDisplayingMode() {
@@ -97,6 +102,8 @@ export class ListStudentsComponent {
     } else {
       this.displayingMode = DisplayingType.TABLE;
     }
+    this.newChecked = [];
+    this.notChecked = true;
   }
 
   search(searchString: string) {
