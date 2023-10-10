@@ -32,10 +32,10 @@
 
 <br /><br />
 
-<div *ngIf="isAddedSuccessful" class="alert alert-success" role="alert">
-  Dodano studenta!
+<div *ngIf="isAddedSuccessful" class="col-6">
+  <app-success-alert></app-success-alert>
 </div>
 
-<div *ngIf="isAddedError" class="alert alert-danger" role="alert">
-  Wystąpił błąd w komunikacji z serwerem!
+<div *ngIf="isAddedError">
+  <app-warning-alert></app-warning-alert>
 </div>

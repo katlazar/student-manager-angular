@@ -11,6 +11,8 @@ import { EditStudentComponent } from './edit-student/edit-student.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { HighlightPipe } from './highlight.pipe';
+import { WarningAlertComponent } from './warning-alert/warning-alert.component';
+import { SuccessAlertComponent } from './success-alert/success-alert.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { HighlightPipe } from './highlight.pipe';
     EditStudentComponent,
     HomeComponent,
     HighlightPipe,
+    WarningAlertComponent,
+    SuccessAlertComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
   providers: [],
